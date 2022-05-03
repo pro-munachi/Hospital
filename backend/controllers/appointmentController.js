@@ -72,7 +72,7 @@ const getDoctorAppointment = asyncHandler(async (req, res) => {
   } else {
     res.json({
       hasError: true,
-      message: `sorry something went wrong`,
+      message: 'sorry something went wrong',
     })
   }
 })
