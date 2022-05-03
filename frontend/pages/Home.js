@@ -8,6 +8,7 @@ import {
   Dimensions,
 } from 'react-native'
 import { vw } from 'react-native-expo-viewport-units'
+import { HomeBottom } from '../components/HomeBottom'
 import { HomeTop } from '../components/HomeTop'
 
 const { width } = Dimensions.get('screen')
@@ -19,8 +20,15 @@ export function Home({ navigation }) {
       contentContainerStyle={styles.container}
       vertical={true}
     >
-      <View style={{ width: vw(93) }}>
+      <View
+        style={{
+          width: vw(100),
+          flex: 1,
+          alignItems: 'center',
+        }}
+      >
         <HomeTop />
+        <HomeBottom />
       </View>
     </ScrollView>
   )

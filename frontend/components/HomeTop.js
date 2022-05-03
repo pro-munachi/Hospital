@@ -1,5 +1,6 @@
 import React from 'react'
 import { Button, Text, View, StyleSheet, TextInput } from 'react-native'
+import { vw } from 'react-native-expo-viewport-units'
 
 export function HomeTop({ navigation }) {
   return (
@@ -13,7 +14,7 @@ export function HomeTop({ navigation }) {
         // onChangeText={onChangeNumber}
         // value={number}
         placeholder='useless placeholder'
-        keyboardType='numeric'
+        // keyboardType=''
       />
     </View>
   )
@@ -23,6 +24,7 @@ const styles = StyleSheet.create({
   top: {
     marginTop: 16,
     paddingVertical: 13,
+    width: vw(90),
   },
   text: {
     display: 'flex',
@@ -43,5 +45,6 @@ const styles = StyleSheet.create({
     padding: 10,
     borderColor: 'white',
     backgroundColor: 'white',
+    borderRadius: 6,
   },
 })
