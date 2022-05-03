@@ -1,8 +1,8 @@
 const asyncHandler = require('express-async-handler')
 const Hospital = require('../models/hospitalModel')
 
-//@desc    Register user & get token
-//@route   POST /api/users/register
+//@desc    Register Hospital
+//@route   POST /api/hospital/createHospital
 //@access  Public
 
 const registerHospital = asyncHandler(async (req, res) => {
@@ -27,6 +27,26 @@ const registerHospital = asyncHandler(async (req, res) => {
   }
 })
 
+//@desc    Get Hospitals
+//@route   GET /api/hospital/all
+//@access  Public
+
+const getHospitals = asyncHandler(async (req, res) => {
+  const hospitals = await Hospital.find({})
+
+  if (hospitals) {
+    res.status(201).json({
+      hasError: false,
+      message: 'data fetched successfully',
+      hospitals,
+    })
+  } else {
+    res.status(400)
+    throw new Error('Invalid user data')
+  }
+})
+
 module.exports = {
   registerHospital,
+  getHospitals,
 }

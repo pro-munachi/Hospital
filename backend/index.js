@@ -33,5 +33,5 @@ mongoose.connect(
 
 // setup routes
 
-app.use('/users', require('./routes/userRouter'))
-app.use('/class', require('./routes/classRouter'))
+app.use('/hospital', require('./routes/hospitalRoute'))
+app.use('/doctor', require('./routes/doctorRoute'))
