@@ -22,6 +22,23 @@ const appointmentSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    hospitalId: {
+      type: String,
+      required: true,
+    },
+    doctorId: {
+      type: String,
+      required: true,
+    },
+    hospital: {
+      type: String,
+      required: true,
+    },
+    doctor: {
+      type: String,
+      required: true,
+    },
+    time: { type: String, required: true },
   },
   {
     timestamps: true,

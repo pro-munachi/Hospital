@@ -35,3 +35,4 @@ mongoose.connect(
 
 app.use('/hospital', require('./routes/hospitalRoute'))
 app.use('/doctor', require('./routes/doctorRoute'))
+app.use('/appointment', require('./routes/appointmentRoute'))

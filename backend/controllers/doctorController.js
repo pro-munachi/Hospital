@@ -25,8 +25,10 @@ const registerDoctor = asyncHandler(async (req, res) => {
       doctor,
     })
   } else {
-    res.status(400)
-    throw new Error('Invalid user data')
+    res.json({
+      hasError: true,
+      message: `sorry something went wrong`,
+    })
   }
 })
 
@@ -44,8 +46,10 @@ const getDoctorByHospital = asyncHandler(async (req, res) => {
       doctors,
     })
   } else {
-    res.status(400)
-    throw new Error('Invalid user data')
+    res.json({
+      hasError: true,
+      message: `sorry something went wrong`,
+    })
   }
 })
 
