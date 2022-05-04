@@ -49,7 +49,7 @@ export function Home({ navigation }) {
       >
         <HomeTop />
 
-        <HomeBottom hospital={data} navigation={navigation} />
+        <HomeBottom hospital={data} navigation={navigation} id={id} />
       </View>
     </ScrollView>
   )

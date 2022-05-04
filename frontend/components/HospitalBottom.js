@@ -7,58 +7,62 @@ import {
   ScrollView,
 } from 'react-native-gesture-handler'
 
-export function HomeBottom({ navigation, hospital, id }) {
+export function HospitalBottom({ navigation, doctors }) {
   return (
     <>
       <View style={styles.top}>
         <View style={styles.all}>
-          <Text style={styles.text1}>Hospitals Around You </Text>
-          {hospital.map((item) => {
+          <Text style={styles.text1}>Doctors </Text>
+          {doctors.map((item) => {
             return (
               <React.Fragment key={item._id}>
                 <TouchableOpacity
-                  style={{ backgroundColor: 'white', paddingHorizontal: 13 }}
+                  style={{
+                    backgroundColor: 'white',
+                    paddingHorizontal: 13,
+                  }}
                   keyboardShouldPersistTaps='always'
                   onPress={() =>
-                    navigation.navigate('Details', {
-                      doctor: item._id,
-                      hospital: id,
-                    })
+                    navigation.navigate('Details', { id: item._id })
                   }
                 >
                   <View style={styles.con}>
                     <View style={styles.data}>
                       <View style={styles.left}>
-                        {/* <View>
-                        <Image
-                          style={styles.image}
-                          source={{
-                            uri: 'https://reactnative.dev/img/tiny_logo.png',
-                          }}
-                        />
-                      </View> */}
+                        <View>
+                          <Image
+                            style={styles.image}
+                            source={{
+                              uri: item.image,
+                            }}
+                          />
+                        </View>
 
                         <View style={styles.text}>
                           <Text style={styles.name}>
                             Name: {item && item.name}
                           </Text>
                           <Text style={styles.address}>
-                            Address: {item.address}
+                            Specialty: {item.specialty}
                           </Text>
                           <Text style={styles.address}>
                             Phone: {item.number}
                           </Text>
                         </View>
                       </View>
+
+                      <View style={styles.right}>
+                        <Button
+                          title='Visit'
+                          // onPress={() => onNavigate(item._id)}
+                          color='#7393B3'
+                        />
+                      </View>
                     </View>
-                    <Button
-                      title='View More'
-                      // onPress={() => onNavigate(item._id)}
-                      color='#7393B3'
-                    />
                   </View>
                   <View style={styles.divider}></View>
                 </TouchableOpacity>
+
                 <View style={{ height: 15 }}></View>
               </React.Fragment>
             )
