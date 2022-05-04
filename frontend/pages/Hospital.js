@@ -1,7 +1,11 @@
 import React from 'react'
 import { Button, Text, View, StyleSheet } from 'react-native'
 
-export function Hospital({ navigation }) {
+export function Hospital({ navigation, route }) {
+  const id = route.params.id
+
+  console.log(id)
+
   return (
     <View style={styles.container}>
       <Text>This is the Details page</Text>

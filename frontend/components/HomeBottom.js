@@ -1,41 +1,62 @@
 import React from 'react'
 import { Button, Text, View, StyleSheet, TextInput, Image } from 'react-native'
-import { vw } from 'react-native-expo-viewport-units'
+import { vh, vw } from 'react-native-expo-viewport-units'
+import {
+  TouchableOpacity,
+  TouchableHighlight,
+  ScrollView,
+} from 'react-native-gesture-handler'
 
-export function HomeBottom({ navigation }) {
+export function HomeBottom({ navigation, hospital }) {
   return (
-    <View style={styles.top}>
-      <View style={styles.all}>
-        <Text style={styles.text1}>Find A Close Hospital</Text>
+    <>
+      <View style={styles.top}>
+        <View style={styles.all}>
+          <Text style={styles.text1}>Hospitals Around You </Text>
+          {hospital.map((item) => {
+            return (
+              <React.Fragment key={item._id}>
+                <TouchableOpacity
+                  style={{ backgroundColor: 'transparent' }}
+                  keyboardShouldPersistTaps='always'
+                  onPress={() =>
+                    navigation.navigate('Details', { id: item._id })
+                  }
+                >
+                  <View style={styles.data}>
+                    <View style={styles.left}>
+                      {/* <View>
+                        <Image
+                          style={styles.image}
+                          source={{
+                            uri: 'https://reactnative.dev/img/tiny_logo.png',
+                          }}
+                        />
+                      </View> */}
 
-        <View style={styles.data}>
-          <View style={styles.left}>
-            <View>
-              <Image
-                style={styles.image}
-                source={{
-                  uri: 'https://reactnative.dev/img/tiny_logo.png',
-                }}
-              />
-            </View>
-
-            <View style={styles.text}>
-              <Text style={styles.name}>Umezurike Hospital</Text>
-              <Text style={styles.address}>no 2 anyogu street</Text>
-            </View>
-          </View>
-
-          <View style={styles.right}>
-            <Button
-              title='view'
-              color='#7393B3'
-              accessibilityLabel='View more about the hospital'
-              style={styles.button}
-            />
-          </View>
+                      <View style={styles.text}>
+                        <Text style={styles.name}>
+                          Name: {item && item.name}
+                        </Text>
+                        <Text style={styles.address}>
+                          Address: {item.address}
+                        </Text>
+                        <Text style={styles.address}>Phone: {item.number}</Text>
+                      </View>
+                    </View>
+                  </View>
+                  <Button
+                    title='View More'
+                    // onPress={() => onNavigate(item._id)}
+                    color='#7393B3'
+                  />
+                </TouchableOpacity>
+              </React.Fragment>
+            )
+          })}
         </View>
       </View>
-    </View>
+    </>
   )
 }
 
@@ -47,7 +68,8 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 16,
     width: vw(100),
     alignItems: 'center',
-    flex: 1,
+    display: 'flex',
+    height: vh(100),
   },
 
   all: {

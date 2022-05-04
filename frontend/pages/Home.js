@@ -1,19 +1,39 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Button,
   Text,
   View,
   StyleSheet,
+  SafeAreaView,
+  StatusBar,
   ScrollView,
-  Dimensions,
 } from 'react-native'
 import { vw } from 'react-native-expo-viewport-units'
+import {
+  TouchableOpacity,
+  TouchableHighlight,
+} from 'react-native-gesture-handler'
+
 import { HomeBottom } from '../components/HomeBottom'
 import { HomeTop } from '../components/HomeTop'
 
-const { width } = Dimensions.get('screen')
-
 export function Home({ navigation }) {
+  const [data, setData] = useState([])
+
+  useEffect(() => {
+    try {
+      fetch('https://hosapi.herokuapp.com/hospital/all')
+        .then((response) => response.json())
+        .then((json) => {
+          if (json.hasError === false) {
+            setData(json.hospitals)
+          }
+        })
+    } catch (err) {
+      console.log('err')
+    }
+  }, [])
+
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -28,7 +48,8 @@ export function Home({ navigation }) {
         }}
       >
         <HomeTop />
-        <HomeBottom />
+
+        <HomeBottom hospital={data} navigation={navigation} />
       </View>
     </ScrollView>
   )
@@ -36,9 +57,7 @@ export function Home({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#7393B3',
     alignItems: 'center',
-    // justifyContent: 'center',
   },
 })
