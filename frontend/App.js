@@ -6,7 +6,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 import { Home } from './pages/Home'
 import { Hospital } from './pages/Hospital'
-import React from 'react'
+import { Book } from './pages/Book'
 
 export default function App() {
   const Stack = createStackNavigator()
@@ -16,6 +16,7 @@ export default function App() {
       <Stack.Navigator initialRouteName='Home'>
         <Stack.Screen name='Home' component={Home} />
         <Stack.Screen name='Details' component={Hospital} />
+        <Stack.Screen name='Book' component={Book} />
       </Stack.Navigator>
     </NavigationContainer>
   )

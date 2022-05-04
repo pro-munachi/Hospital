@@ -13,11 +13,10 @@ import {
   TouchableOpacity,
   TouchableHighlight,
 } from 'react-native-gesture-handler'
+import { BookedBottom } from '../components/BookedBottom'
+import { BookedTop } from '../components/BookedTop'
 
-import { HomeBottom } from '../components/HomeBottom'
-import { HomeTop } from '../components/HomeTop'
-
-export function Home({ navigation }) {
+export function Book({ navigation }) {
   const [data, setData] = useState([])
 
   useEffect(() => {
@@ -47,9 +46,8 @@ export function Home({ navigation }) {
           alignItems: 'center',
         }}
       >
-        <HomeTop />
-
-        <HomeBottom hospital={data} navigation={navigation} />
+        <BookedTop />
+        <BookedBottom />
       </View>
     </ScrollView>
   )

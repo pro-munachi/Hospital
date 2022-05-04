@@ -7,7 +7,7 @@ import {
   ScrollView,
 } from 'react-native-gesture-handler'
 
-export function HospitalBottom({ navigation, doctors }) {
+export function HospitalBottom({ navigation, doctors, id }) {
   return (
     <>
       <View style={styles.top}>
@@ -23,7 +23,10 @@ export function HospitalBottom({ navigation, doctors }) {
                   }}
                   keyboardShouldPersistTaps='always'
                   onPress={() =>
-                    navigation.navigate('Details', { id: item._id })
+                    navigation.navigate('Book', {
+                      doctor: item._id,
+                      hospital: id,
+                    })
                   }
                 >
                   <View style={styles.con}>

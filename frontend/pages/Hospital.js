@@ -67,7 +67,7 @@ export function Hospital({ navigation, route }) {
         </View>
 
         <HospitalMiddle />
-        <HospitalBottom doctors={doctors} navigation={navigation} />
+        <HospitalBottom doctors={doctors} navigation={navigation} id={id} />
       </View>
     </ScrollView>
   )
