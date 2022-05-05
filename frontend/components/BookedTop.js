@@ -2,23 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Button, Text, View, StyleSheet, TextInput } from 'react-native'
 import { vw } from 'react-native-expo-viewport-units'
 
-export function BookedTop({ navigation, id }) {
-  const [data, setData] = useState([])
-
-  useEffect(() => {
-    try {
-      fetch(`https://hosapi.herokuapp.com/appointment/doctor/${id}`)
-        .then((response) => response.json())
-        .then((json) => {
-          if (json.hasError === false) {
-            setData(json.doctor)
-          }
-        })
-    } catch (err) {
-      console.log('err')
-    }
-  }, [])
-
+export function BookedTop({ navigation, data }) {
   return (
     <View style={styles.all}>
       <Text style={styles.appoint}>Booked Appointments</Text>

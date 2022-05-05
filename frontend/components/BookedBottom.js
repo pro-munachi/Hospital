@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
-import { Button, Text, View, StyleSheet, TextInput } from 'react-native'
+import { Button, Text, View, StyleSheet, TextInput, Image } from 'react-native'
 import { vw } from 'react-native-expo-viewport-units'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import axios from 'axios'
 import { Picker } from '@react-native-picker/picker'
 import { UploadImage } from './UploadImage'
 import * as ImagePicker from 'expo-image-picker'
+import Toast from 'react-native-root-toast'
 
-export function BookedBottom({ navigation, hospitalId, doctorId }) {
+export function BookedBottom({ navigation, hospitalId, doctorId, reload }) {
   const [date, setDate] = useState(new Date())
   const [showDate, setShowDate] = useState(false)
   const [selectedTime, setSelectedTime] = useState('')
@@ -16,7 +17,7 @@ export function BookedBottom({ navigation, hospitalId, doctorId }) {
   const [email, setEmail] = useState('')
   const [number, setNumber] = useState('')
   const [illness, setIllness] = useState('')
-  const [loadin, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -26,8 +27,6 @@ export function BookedBottom({ navigation, hospitalId, doctorId }) {
       aspect: [4, 3],
       quality: 1,
     })
-
-    console.log(result)
 
     if (!result.cancelled) {
       setImage(result.uri)
@@ -45,7 +44,7 @@ export function BookedBottom({ navigation, hospitalId, doctorId }) {
   }
 
   const submit = () => {
-    loadin(true)
+    setLoading(true)
     try {
       const body = {
         date: date.toString(),
@@ -69,25 +68,59 @@ export function BookedBottom({ navigation, hospitalId, doctorId }) {
         !number ||
         !image
       ) {
-        console.log('all fields must be filled')
-        loadin(false)
+        Toast.show('All forms must be filled', {
+          duration: Toast.durations.LONG,
+          position: Toast.positions.BOTTOM,
+          shadow: true,
+          animation: true,
+          hideOnPress: true,
+          delay: 2,
+          backgroundColor: '#00BFFF',
+          textColor: 'white',
+          opacity: 1,
+        })
+        setLoading(false)
       } else {
         axios
           .post('https://hosapi.herokuapp.com/appointment/book', body)
           .then((res) => {
-            console.log(res.data)
-            loadin(false)
+            setLoading(false)
+            if (res.data.hasError === false) {
+              Toast.show('Appointment Booked Successfully', {
+                duration: Toast.durations.LONG,
+                position: Toast.positions.BOTTOM,
+                shadow: true,
+                animation: true,
+                hideOnPress: true,
+                delay: 2,
+                backgroundColor: '#00FF00',
+                textColor: 'white',
+                opacity: 1,
+              })
+              reload()
+            } else {
+              Toast.show(res.data.message, {
+                duration: Toast.durations.LONG,
+                position: Toast.positions.BOTTOM,
+                shadow: true,
+                animation: true,
+                hideOnPress: true,
+                delay: 2,
+                backgroundColor: '#DC143C',
+                textColor: 'white',
+                opacity: 1,
+              })
+            }
           })
       }
     } catch (err) {
-      console.log(err)
-      loadin(false)
+      setLoading(false)
     }
   }
 
   return (
     <View style={styles.all}>
-      <Text style={styles.bio}>Bio-Data</Text>
+      <Text style={styles.bio}>Bio Data</Text>
 
       <TextInput
         style={styles.input}
@@ -161,13 +194,14 @@ export function BookedBottom({ navigation, hospitalId, doctorId }) {
 
       <View style={styles.image}>
         <Button title='Select Image' onPress={pickImage} color='#7393B3' />
-        {/* {image && (
-        <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
-      )} */}
       </View>
 
       <View style={styles.submit}>
-        <Button onPress={submit} title='Book An Appointment' color='#7393B3' />
+        <Button
+          onPress={submit}
+          title={!loading ? 'Book an Appointment' : 'Booking Appointment...'}
+          color='#7393B3'
+        />
       </View>
     </View>
   )

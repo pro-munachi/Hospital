@@ -1,3 +1,4 @@
+import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import {
   Button,
@@ -16,15 +17,19 @@ import {
 } from 'react-native-gesture-handler'
 import { HospitalBottom } from '../components/HospitalBottom'
 import { HospitalMiddle } from '../components/HospitalMiddle'
+import { Loader } from '../components/Loader'
 
 export function Hospital({ navigation, route }) {
   const [doctors, setDoctors] = useState([])
   const [data, setData] = useState([])
+  const [hospital, setHospital] = useState([])
   const [text, SetText] = useState()
+  const [loading, setLoading] = useState(false)
 
   const id = route.params.id
 
   useEffect(() => {
+    setLoading(true)
     try {
       fetch(`https://hosapi.herokuapp.com/doctor/findbyhospital/${id}`)
         .then((response) => response.json())
@@ -32,14 +37,22 @@ export function Hospital({ navigation, route }) {
           if (json.hasError === false) {
             setDoctors(json.doctors)
             setData(json.doctors)
+            setLoading(false)
           }
         })
+
+      axios.get(`https://hosapi.herokuapp.com/hospital/${id}`).then((res) => {
+        setHospital(res.data.hospital)
+        setLoading(false)
+      })
     } catch (err) {
       console.log('err')
+      setLoading(false)
     }
   }, [])
 
   const search = (text) => {
+    SetText(text)
     const filteredData = doctors.filter((value) => {
       const searchStr = text.toLowerCase()
       const name = value.name.toLowerCase().includes(searchStr)
@@ -53,35 +66,51 @@ export function Hospital({ navigation, route }) {
   }
 
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={styles.container}
-      vertical={true}
-    >
-      <View
-        style={{
-          width: vw(100),
-          flex: 1,
-          alignItems: 'center',
-        }}
-      >
-        <View style={styles.top}>
-          <View style={styles.text}>
-            <Text style={styles.text1}>Find Your Desired</Text>
-            <Text style={styles.text2}>Doctor Right Now</Text>
-          </View>
-          <TextInput
-            style={styles.input}
-            onChangeText={(text) => search(text)}
-            value={text}
-            placeholder='Search Doctors'
-          />
-        </View>
+    <React.Fragment>
+      {loading ? (
+        <Loader />
+      ) : (
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.container}
+          vertical={true}
+        >
+          <View
+            style={{
+              width: vw(100),
+              flex: 1,
+              alignItems: 'center',
+            }}
+          >
+            <View style={styles.top}>
+              <Text
+                style={{
+                  color: 'white',
+                  textAlign: 'center',
+                  paddingBottom: 12,
+                  fontSize: 20,
+                }}
+              >
+                {hospital.name}
+              </Text>
+              <View style={styles.text}>
+                <Text style={styles.text1}>Find Your Desired</Text>
+                <Text style={styles.text2}>Doctor Right Now</Text>
+              </View>
+              <TextInput
+                style={styles.input}
+                onChangeText={(text) => search(text)}
+                value={text}
+                placeholder='Search Doctors'
+              />
+            </View>
 
-        <HospitalMiddle />
-        <HospitalBottom doctors={data} navigation={navigation} id={id} />
-      </View>
-    </ScrollView>
+            <HospitalMiddle />
+            <HospitalBottom doctors={data} navigation={navigation} id={id} />
+          </View>
+        </ScrollView>
+      )}
+    </React.Fragment>
   )
 }
 
@@ -92,7 +121,7 @@ const styles = StyleSheet.create({
   },
 
   top: {
-    marginTop: 16,
+    marginTop: 2,
     paddingVertical: 13,
     width: vw(90),
   },

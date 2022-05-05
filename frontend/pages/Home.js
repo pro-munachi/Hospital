@@ -8,22 +8,22 @@ import {
   StatusBar,
   ScrollView,
   TextInput,
+  ActivityIndicator,
 } from 'react-native'
-import { vw } from 'react-native-expo-viewport-units'
-import {
-  TouchableOpacity,
-  TouchableHighlight,
-} from 'react-native-gesture-handler'
+import { vw, vh } from 'react-native-expo-viewport-units'
 
 import { HomeBottom } from '../components/HomeBottom'
 import { HomeTop } from '../components/HomeTop'
+import { Loader } from '../components/Loader'
 
 export function Home({ navigation }) {
   const [doctors, setDoctors] = useState([])
   const [data, setData] = useState([])
   const [text, SetText] = useState()
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
+    setLoading(true)
     try {
       fetch('https://hosapi.herokuapp.com/hospital/all')
         .then((response) => response.json())
@@ -31,14 +31,18 @@ export function Home({ navigation }) {
           if (json.hasError === false) {
             setDoctors(json.hospitals)
             setData(json.hospitals)
+            setLoading(false)
           }
         })
     } catch (err) {
       console.log('err')
+      setLoading(false)
     }
   }, [])
 
   const search = (text) => {
+    SetText(text)
+
     const filteredData = doctors.filter((value) => {
       const searchStr = text.toLowerCase()
       const name = value.name.toLowerCase().includes(searchStr)
@@ -52,33 +56,40 @@ export function Home({ navigation }) {
   }
 
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={styles.container}
-      vertical={true}
-    >
-      <View
-        style={{
-          width: vw(100),
-          flex: 1,
-          alignItems: 'center',
-        }}
-      >
-        <View style={styles.top}>
-          <View style={styles.text}>
-            <Text style={styles.text1}>Find A Hospital</Text>
-            <Text style={styles.text2}>Close To You</Text>
+    <React.Fragment>
+      {loading ? (
+        <Loader />
+      ) : (
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.container}
+          vertical={true}
+        >
+          <View
+            style={{
+              width: vw(100),
+              flex: 1,
+              alignItems: 'center',
+            }}
+          >
+            <View style={styles.top}>
+              <View style={styles.text}>
+                <Text style={styles.text1}>Find A Hospital</Text>
+                <Text style={styles.text2}>Close To You</Text>
+              </View>
+              <TextInput
+                style={styles.input}
+                onChangeText={(text) => search(text)}
+                value={text}
+                placeholder='Search Hospitals'
+              />
+            </View>
+
+            <HomeBottom hospital={data} navigation={navigation} />
           </View>
-          <TextInput
-            style={styles.input}
-            onChangeText={(text) => search(text)}
-            value={text}
-            placeholder='Search Hospitals'
-          />
-        </View>
-        <HomeBottom hospital={data} navigation={navigation} />
-      </View>
-    </ScrollView>
+        </ScrollView>
+      )}
+    </React.Fragment>
   )
 }
 
