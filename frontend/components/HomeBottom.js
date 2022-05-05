@@ -1,11 +1,7 @@
 import React from 'react'
-import { Button, Text, View, StyleSheet, TextInput, Image } from 'react-native'
-import { vh, vw } from 'react-native-expo-viewport-units'
-import {
-  TouchableOpacity,
-  TouchableHighlight,
-  ScrollView,
-} from 'react-native-gesture-handler'
+import { Button, Text, View, StyleSheet } from 'react-native'
+import { vw } from 'react-native-expo-viewport-units'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 
 export function HomeBottom({ navigation, hospital }) {
   return (

@@ -1,8 +1,8 @@
 import React from 'react'
-import { Button, Text, View, StyleSheet, TextInput } from 'react-native'
+import { Text, View, StyleSheet, TextInput } from 'react-native'
 import { vw } from 'react-native-expo-viewport-units'
 
-export function HomeTop({ navigation }) {
+export function HomeTop() {
   return (
     <View style={styles.top}>
       <View style={styles.text}>

@@ -1,10 +1,9 @@
 import React from 'react'
-import { Button, Text, View, StyleSheet, TextInput } from 'react-native'
+import { Text, View, StyleSheet, TextInput } from 'react-native'
 import { vw } from 'react-native-expo-viewport-units'
-import Ionicons from '@expo/vector-icons/Ionicons'
 import { FontAwesome5 } from '@expo/vector-icons'
 
-export function HospitalMiddle({ navigation }) {
+export function HospitalMiddle() {
   return (
     <View style={styles.top}>
       <View style={styles.heart}>

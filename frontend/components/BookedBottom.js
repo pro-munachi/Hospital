@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
-import { Button, Text, View, StyleSheet, TextInput, Image } from 'react-native'
+import { Button, Text, View, StyleSheet, TextInput } from 'react-native'
 import { vw } from 'react-native-expo-viewport-units'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import axios from 'axios'
 import { Picker } from '@react-native-picker/picker'
-import { UploadImage } from './UploadImage'
 import * as ImagePicker from 'expo-image-picker'
 import Toast from 'react-native-root-toast'
 
-export function BookedBottom({ navigation, hospitalId, doctorId, reload }) {
+export function BookedBottom({ hospitalId, doctorId, reload }) {
   const [date, setDate] = useState(new Date())
   const [showDate, setShowDate] = useState(false)
   const [selectedTime, setSelectedTime] = useState('')

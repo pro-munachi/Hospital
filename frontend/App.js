@@ -1,8 +1,6 @@
 import { StatusBar } from 'expo-status-bar'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
-import { StyleSheet, Text, View } from 'react-native'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { RootSiblingParent } from 'react-native-root-siblings'
 
 import { Home } from './pages/Home'
@@ -24,12 +22,3 @@ export default function App() {
     </RootSiblingParent>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-})

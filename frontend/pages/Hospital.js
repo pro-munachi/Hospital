@@ -1,20 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import {
-  Button,
-  Text,
-  View,
-  StyleSheet,
-  SafeAreaView,
-  StatusBar,
-  ScrollView,
-  TextInput,
-} from 'react-native'
+import { Text, View, StyleSheet, ScrollView, TextInput } from 'react-native'
 import { vw } from 'react-native-expo-viewport-units'
-import {
-  TouchableOpacity,
-  TouchableHighlight,
-} from 'react-native-gesture-handler'
 import { HospitalBottom } from '../components/HospitalBottom'
 import { HospitalMiddle } from '../components/HospitalMiddle'
 import { Loader } from '../components/Loader'

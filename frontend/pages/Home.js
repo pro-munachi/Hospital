@@ -1,19 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import {
-  Button,
-  Text,
-  View,
-  StyleSheet,
-  SafeAreaView,
-  StatusBar,
-  ScrollView,
-  TextInput,
-  ActivityIndicator,
-} from 'react-native'
+import { Text, View, StyleSheet, ScrollView, TextInput } from 'react-native'
 import { vw, vh } from 'react-native-expo-viewport-units'
 
 import { HomeBottom } from '../components/HomeBottom'
-import { HomeTop } from '../components/HomeTop'
 import { Loader } from '../components/Loader'
 
 export function Home({ navigation }) {

@@ -6,7 +6,7 @@ import { BookedBottom } from '../components/BookedBottom'
 import { BookedTop } from '../components/BookedTop'
 import { Loader } from '../components/Loader'
 
-export function Book({ navigation, route }) {
+export function Book({ route }) {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
 
