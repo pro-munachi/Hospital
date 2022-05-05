@@ -2,12 +2,12 @@ import React, { useState } from 'react'
 import { Button, Text, View, StyleSheet, TextInput } from 'react-native'
 import { vw } from 'react-native-expo-viewport-units'
 import DateTimePicker from '@react-native-community/datetimepicker'
+import { Picker } from '@react-native-picker/picker'
 
 export function BookedBottom({ navigation }) {
   const [date, setDate] = useState(new Date())
-  const [time, setTime] = useState(new Date())
-  const [showTime, setShowTime] = useState(false)
   const [showDate, setShowDate] = useState(false)
+  const [selectedTime, setSelectedTime] = useState('')
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate ? selectedDate : new Date()
@@ -15,23 +15,8 @@ export function BookedBottom({ navigation }) {
     setDate(currentDate)
   }
 
-  const onChangeTime = (event, selectedDate) => {
-    const currentDate = selectedDate ? selectedDate : new Date()
-    setShowTime(false)
-    setTime(currentDate)
-  }
-
-  //   const showMode = (currentMode) => {
-  //     setShow(true)
-  //     setMode(currentMode)
-  //   }
-
   const showDatepicker = () => {
     setShowDate(true)
-  }
-
-  const showTimepicker = () => {
-    setShowTime(true)
   }
 
   return (
@@ -69,9 +54,6 @@ export function BookedBottom({ navigation }) {
         placeholder='illness'
       />
 
-      {/* <View>
-        <Button onPress={showTimepicker} title='Show time picker!' />
-      </View> */}
       <View>
         {showDate && (
           <DateTimePicker
@@ -87,25 +69,36 @@ export function BookedBottom({ navigation }) {
         <Text style={styles.datepick}>
           selected: {date && date.toLocaleString()}
         </Text>
-        <Button onPress={showDatepicker} title='Show date picker!' />
+        <Button
+          onPress={showDatepicker}
+          title='Select Appointment Date'
+          color='#7393B3'
+        />
       </View>
 
-      <View>
-        {showTime && (
-          <DateTimePicker
-            testID='dateTimePicker'
-            timeZoneOffsetInMinutes={0}
-            value={time}
-            mode='time'
-            is24Hour={false}
-            display='default'
-            onChange={onChangeTime}
-          />
-        )}
-        <Text style={styles.datepick}>
-          selected: {time && time.toLocaleString()}
-        </Text>
-        <Button onPress={showTimepicker} title='Show date picker!' />
+      <View style={styles.picker}>
+        <Picker
+          selectedValue={selectedTime}
+          onValueChange={(itemValue, itemIndex) => setSelectedTime(itemValue)}
+          style={styles.select}
+        >
+          <Picker.Item label='Select Appointment Time' />
+          <Picker.Item label='9:00am - 10:00am' value='9:00am - 10:00am' />
+          <Picker.Item label='10:00am - 11:00am' value='10:00am - 11:00am' />
+          <Picker.Item label='11:00am - 12:00pm' value='11:00am - 12:00pm' />
+          <Picker.Item label='12:00pm - 1:00pm' value='12:00pm - 1:00pm' />
+          <Picker.Item label='1:00pm - 2:00pm' value='1:00pm - 2:00pm' />
+          <Picker.Item label='2:00pm - 3:00pm' value='2:00pm - 3:00pm' />
+          <Picker.Item label='3:00pm - 4:00pm' value='3:00pm - 4:00pm' />
+        </Picker>
+      </View>
+
+      <View style={styles.submit}>
+        <Button
+          //   onPress={showDatepicker}
+          title='Book An Appointment'
+          color='#7393B3'
+        />
       </View>
     </View>
   )
@@ -123,25 +116,46 @@ const styles = StyleSheet.create({
   },
 
   input: {
-    height: 40,
+    height: 47,
     marginTop: 12,
     borderWidth: 1,
     padding: 10,
-    borderColor: 'white',
+    borderColor: '#7393B3',
     backgroundColor: 'white',
     borderRadius: 6,
     width: vw(90),
   },
+  picker: {
+    // height: 40,
+    marginTop: 12,
+    borderWidth: 1,
+    borderColor: '#7393B3',
+    backgroundColor: 'white',
+    borderRadius: 6,
+    width: vw(90),
+    paddingBottom: 8,
+  },
+
+  select: {
+    height: 40,
+    width: vw(90),
+  },
 
   datepick: {
-    height: 40,
+    height: 46,
     marginVertical: 12,
-    borderWidth: 1,
+    borderWidth: 2,
     padding: 10,
-    borderColor: 'white',
+    borderColor: '#7393B3',
     backgroundColor: 'white',
     borderRadius: 6,
     width: vw(90),
     opacity: 0.4,
+  },
+
+  submit: {
+    height: 46,
+    width: vw(90),
+    marginVertical: 18,
   },
 })
