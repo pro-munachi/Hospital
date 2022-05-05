@@ -16,8 +16,10 @@ import {
 import { BookedBottom } from '../components/BookedBottom'
 import { BookedTop } from '../components/BookedTop'
 
-export function Book({ navigation }) {
+export function Book({ navigation, route }) {
   const [data, setData] = useState([])
+
+  const { doctor, hospital } = route.params
 
   useEffect(() => {
     try {
@@ -46,8 +48,8 @@ export function Book({ navigation }) {
           alignItems: 'center',
         }}
       >
-        <BookedTop />
-        <BookedBottom />
+        <BookedTop id={doctor} />
+        <BookedBottom hospitalId={hospital} doctorId={doctor} />
       </View>
     </ScrollView>
   )

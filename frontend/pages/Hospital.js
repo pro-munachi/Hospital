@@ -19,10 +19,10 @@ import { HospitalMiddle } from '../components/HospitalMiddle'
 
 export function Hospital({ navigation, route }) {
   const [doctors, setDoctors] = useState([])
+  const [data, setData] = useState([])
+  const [text, SetText] = useState()
 
   const id = route.params.id
-
-  console.log(id)
 
   useEffect(() => {
     try {
@@ -31,13 +31,26 @@ export function Hospital({ navigation, route }) {
         .then((json) => {
           if (json.hasError === false) {
             setDoctors(json.doctors)
-            console.log(json.doctors)
+            setData(json.doctors)
           }
         })
     } catch (err) {
       console.log('err')
     }
   }, [])
+
+  const search = (text) => {
+    const filteredData = doctors.filter((value) => {
+      const searchStr = text.toLowerCase()
+      const name = value.name.toLowerCase().includes(searchStr)
+      const specialty = value.specialty.toString().includes(searchStr)
+      const number = value.number.toString().includes(searchStr)
+
+      return name || number || specialty
+    })
+
+    setData(filteredData)
+  }
 
   return (
     <ScrollView
@@ -59,15 +72,14 @@ export function Hospital({ navigation, route }) {
           </View>
           <TextInput
             style={styles.input}
-            // onChangeText={onChangeNumber}
-            // value={number}
-            placeholder='useless placeholder'
-            // keyboardType=''
+            onChangeText={(text) => search(text)}
+            value={text}
+            placeholder='Search Doctors'
           />
         </View>
 
         <HospitalMiddle />
-        <HospitalBottom doctors={doctors} navigation={navigation} id={id} />
+        <HospitalBottom doctors={data} navigation={navigation} id={id} />
       </View>
     </ScrollView>
   )

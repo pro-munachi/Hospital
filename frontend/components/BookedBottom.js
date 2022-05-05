@@ -2,15 +2,21 @@ import React, { useState } from 'react'
 import { Button, Text, View, StyleSheet, TextInput } from 'react-native'
 import { vw } from 'react-native-expo-viewport-units'
 import DateTimePicker from '@react-native-community/datetimepicker'
+import axios from 'axios'
 import { Picker } from '@react-native-picker/picker'
 import { UploadImage } from './UploadImage'
 import * as ImagePicker from 'expo-image-picker'
 
-export function BookedBottom({ navigation }) {
+export function BookedBottom({ navigation, hospitalId, doctorId }) {
   const [date, setDate] = useState(new Date())
   const [showDate, setShowDate] = useState(false)
   const [selectedTime, setSelectedTime] = useState('')
   const [image, setImage] = useState(null)
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [number, setNumber] = useState('')
+  const [illness, setIllness] = useState('')
+  const [loadin, setLoading] = useState(false)
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -38,38 +44,79 @@ export function BookedBottom({ navigation }) {
     setShowDate(true)
   }
 
+  const submit = () => {
+    loadin(true)
+    try {
+      const body = {
+        date: date.toString(),
+        name,
+        email,
+        hospitalId,
+        doctorId,
+        illness,
+        time: selectedTime,
+        number: number.toString(),
+        image,
+      }
+      if (
+        !date ||
+        !name ||
+        !email ||
+        !hospitalId ||
+        !doctorId ||
+        !illness ||
+        !selectedTime ||
+        !number ||
+        !image
+      ) {
+        console.log('all fields must be filled')
+        loadin(false)
+      } else {
+        axios
+          .post('https://hosapi.herokuapp.com/appointment/book', body)
+          .then((res) => {
+            console.log(res.data)
+            loadin(false)
+          })
+      }
+    } catch (err) {
+      console.log(err)
+      loadin(false)
+    }
+  }
+
   return (
     <View style={styles.all}>
-      <Text>Data</Text>
+      <Text style={styles.bio}>Bio-Data</Text>
 
       <TextInput
         style={styles.input}
-        // onChangeText={onChangeNumber}
-        // value={number}
+        onChangeText={setName}
+        value={name}
         placeholder='name'
         // keyboardType=''
       />
 
       <TextInput
         style={styles.input}
-        // onChangeText={onChangeNumber}
-        // value={number}
+        onChangeText={setEmail}
+        value={email}
         placeholder='email'
         // keyboardType=''
       />
 
       <TextInput
         style={styles.input}
-        // onChangeText={onChangeNumber}
-        // value={number}
+        onChangeText={setNumber}
+        value={number}
         placeholder='phone number'
         keyboardType='numeric'
       />
 
       <TextInput
         style={styles.input}
-        // onChangeText={onChangeNumber}
-        // value={number}
+        onChangeText={setIllness}
+        value={illness}
         placeholder='illness'
       />
 
@@ -120,11 +167,7 @@ export function BookedBottom({ navigation }) {
       </View>
 
       <View style={styles.submit}>
-        <Button
-          //   onPress={showDatepicker}
-          title='Book An Appointment'
-          color='#7393B3'
-        />
+        <Button onPress={submit} title='Book An Appointment' color='#7393B3' />
       </View>
     </View>
   )
@@ -189,5 +232,10 @@ const styles = StyleSheet.create({
     height: 46,
     width: vw(90),
     marginVertical: 12,
+  },
+
+  bio: {
+    fontSize: 22,
+    marginVertical: 5,
   },
 })
