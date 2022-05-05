@@ -3,11 +3,30 @@ import { Button, Text, View, StyleSheet, TextInput } from 'react-native'
 import { vw } from 'react-native-expo-viewport-units'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import { Picker } from '@react-native-picker/picker'
+import { UploadImage } from './UploadImage'
+import * as ImagePicker from 'expo-image-picker'
 
 export function BookedBottom({ navigation }) {
   const [date, setDate] = useState(new Date())
   const [showDate, setShowDate] = useState(false)
   const [selectedTime, setSelectedTime] = useState('')
+  const [image, setImage] = useState(null)
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    })
+
+    console.log(result)
+
+    if (!result.cancelled) {
+      setImage(result.uri)
+    }
+  }
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate ? selectedDate : new Date()
@@ -93,6 +112,13 @@ export function BookedBottom({ navigation }) {
         </Picker>
       </View>
 
+      <View style={styles.image}>
+        <Button title='Select Image' onPress={pickImage} color='#7393B3' />
+        {/* {image && (
+        <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
+      )} */}
+      </View>
+
       <View style={styles.submit}>
         <Button
           //   onPress={showDatepicker}
@@ -156,6 +182,12 @@ const styles = StyleSheet.create({
   submit: {
     height: 46,
     width: vw(90),
-    marginVertical: 18,
+    marginVertical: 14,
+  },
+
+  image: {
+    height: 46,
+    width: vw(90),
+    marginVertical: 12,
   },
 })
