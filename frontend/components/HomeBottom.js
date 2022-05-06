@@ -22,15 +22,6 @@ export function HomeBottom({ navigation, hospital }) {
                   <View style={styles.con}>
                     <View style={styles.data}>
                       <View style={styles.left}>
-                        {/* <View>
-                        <Image
-                          style={styles.image}
-                          source={{
-                            uri: 'https://reactnative.dev/img/tiny_logo.png',
-                          }}
-                        />
-                      </View> */}
-
                         <View style={styles.text}>
                           <Text style={styles.name}>
                             Name: {item && item.name}
@@ -44,11 +35,7 @@ export function HomeBottom({ navigation, hospital }) {
                         </View>
                       </View>
                     </View>
-                    <Button
-                      title='View More'
-                      // onPress={() => onNavigate(item._id)}
-                      color='#7393B3'
-                    />
+                    <Button title='View More' color='#7393B3' />
                   </View>
                   <View style={styles.divider}></View>
                 </TouchableOpacity>

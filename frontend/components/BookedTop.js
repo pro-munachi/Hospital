@@ -3,6 +3,7 @@ import { Text, View, StyleSheet } from 'react-native'
 import { vw } from 'react-native-expo-viewport-units'
 
 export function BookedTop({ data }) {
+  console.log(data)
   return (
     <View style={styles.all}>
       <Text style={styles.appoint}>Booked Appointments</Text>

@@ -18,7 +18,7 @@ export function Book({ route }) {
         .then((response) => response.json())
         .then((json) => {
           if (json.hasError === false) {
-            setData(json.doctor)
+            setData(json.data)
           }
         })
     } catch (err) {
@@ -33,7 +33,7 @@ export function Book({ route }) {
         .then((response) => response.json())
         .then((json) => {
           if (json.hasError === false) {
-            setData(json.doctor)
+            setData(json.data)
             setLoading(false)
           }
         })

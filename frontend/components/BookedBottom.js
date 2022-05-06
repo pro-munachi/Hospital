@@ -7,7 +7,7 @@ import { Picker } from '@react-native-picker/picker'
 import * as ImagePicker from 'expo-image-picker'
 import Toast from 'react-native-root-toast'
 
-export function BookedBottom({ hospitalId, doctorId, reload }) {
+export function BookedBottom({ navigation, hospitalId, doctorId, reload }) {
   const [date, setDate] = useState(new Date())
   const [showDate, setShowDate] = useState(false)
   const [selectedTime, setSelectedTime] = useState('')
@@ -97,6 +97,11 @@ export function BookedBottom({ hospitalId, doctorId, reload }) {
                 opacity: 1,
               })
               reload()
+              setSelectedTime('')
+              setName('')
+              setEmail('')
+              setIllness('')
+              setNumber('')
             } else {
               Toast.show(res.data.message, {
                 duration: Toast.durations.LONG,
